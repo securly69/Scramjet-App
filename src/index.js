@@ -58,6 +58,10 @@ fastify.register(fastifyStatic, {
 	decorateReply: false,
 });
 
+fastify.get("/scramjet/*", (_req, reply) => {
+	return reply.type("text/html").sendFile("index.html");
+});
+
 fastify.setNotFoundHandler((res, reply) => {
 	return reply.code(404).type("text/html").sendFile("404.html");
 });

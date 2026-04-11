@@ -18,32 +18,174 @@
 		<script src="/baremux/index.js"></script>
 		<link rel="stylesheet" href="index.css" />
 		<script src="register-sw.js" defer></script>
+		<script src="app-data.js" defer></script>
 		<script src="search.js" defer></script>
+		<script src="battery.js" defer></script>
 		<script src="index.js" defer></script>
 	</head>
 
 	<body class="home-page">
 		<div id="particles-js" aria-hidden="true"></div>
 		<div class="page-shell">
+			<div id="sj-browser-chrome">
+				<div id="sj-tab-row">
+					<div id="sj-tabs" role="tablist" aria-label="Open tabs"></div>
+					<button
+						class="chrome-btn"
+						id="sj-tab-create"
+						type="button"
+						aria-label="Create a new tab"
+						title="New tab"
+					>
+						<svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<path
+								d="M12 5v14"
+								fill="none"
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-width="2"
+							/>
+							<path
+								d="M5 12h14"
+								fill="none"
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-width="2"
+							/>
+						</svg>
+					</button>
+				</div>
+
+				<nav id="sj-nav" aria-label="Browser controls">
+					<div id="sj-nav-controls">
+						<button
+							class="chrome-btn"
+							id="sj-nav-back"
+							type="button"
+							aria-label="Go back"
+							title="Back"
+						>
+							<svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true">
+								<path
+									d="M15.5 5.5 9 12l6.5 6.5"
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+								/>
+							</svg>
+						</button>
+						<button
+							class="chrome-btn"
+							id="sj-nav-forward"
+							type="button"
+							aria-label="Go forward"
+							title="Forward"
+						>
+							<svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true">
+								<path
+									d="M8.5 5.5 15 12l-6.5 6.5"
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+								/>
+							</svg>
+						</button>
+						<button
+							class="chrome-btn"
+							id="sj-nav-reload"
+							type="button"
+							aria-label="Reload"
+							title="Reload"
+						>
+							<svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true">
+								<path
+									d="M19 8a7 7 0 1 0 1.45 7.98"
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+								/>
+								<path
+									d="M19 4v4h-4"
+									fill="none"
+									stroke="currentColor"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+								/>
+							</svg>
+						</button>
+					</div>
+					<div id="sj-nav-address-shell">
+						<img id="sj-nav-icon" alt="" aria-hidden="true" />
+						<form id="sj-nav-form" novalidate>
+							<input
+								id="sj-nav-address"
+								type="text"
+								placeholder="Open a URL in the active tab..."
+								autocomplete="off"
+								spellcheck="false"
+								aria-label="Current tab address"
+							/>
+						</form>
+					</div>
+					<button
+						class="chrome-btn chrome-btn-escape"
+						id="sj-nav-escape"
+						type="button"
+						aria-label="Hide the tab view"
+						title="Hide tabs"
+					>
+						<svg class="chrome-icon" viewBox="0 0 24 24" aria-hidden="true">
+							<path
+								d="M6 6 18 18"
+								fill="none"
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-width="2"
+							/>
+							<path
+								d="M18 6 6 18"
+								fill="none"
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-width="2"
+							/>
+						</svg>
+					</button>
+				</nav>
+			</div>
+
 			<p id="username">KSF Proxy is ready.</p>
 
 			<main id="board">
 				<div class="brand-lockup">
-					<img class="brand-mark" src="sj.png" alt="Scramjet" />
 					<h1 class="schoolbell-regular">KSF Proxy</h1>
 				</div>
+				<div id="home-datetime" aria-live="polite">
+					<p id="home-time">--:--:--</p>
+					<div class="home-date-battery">
+						<span id="home-date">Loading date...</span>
+						<span>•</span>
+						<span class="battery-visual">
+							<span class="battery-fill"></span>
+							<span class="battery-charge-icon" style="display:none; position:absolute; font-size:8.5px; line-height:1; color:#1a1a1a;">⚡</span>
+						</span>
+						<span class="battery-text">Battery</span>
+						<span class="battery-percentage">--%</span>
+					</div>
+				</div>
 				<p class="hero-copy">
-					An interface ported from the `ksf-proxy` layout, backed by the
-					existing Scramjet transport stack. Press <kbd>Esc</kbd> to close an
-					active proxy frame.
+					Scramjet proxy with a different UI by the KSF Franchise. Press
+					<kbd>Esc</kbd> to hide the tab view without discarding your open tabs.
 				</p>
 
 				<form id="sj-form" novalidate>
-					<input
-						id="sj-search-engine"
-						value="https://www.google.com/search?q=%s"
-						type="hidden"
-					/>
 					<input
 						id="sj-address"
 						type="text"
@@ -53,46 +195,50 @@
 					/>
 				</form>
 
+				<div id="home-controls" aria-label="Quick controls">
+					<label class="control-select" for="sj-search-engine-select">
+						<span>Search Engine</span>
+						<select id="sj-search-engine-select"></select>
+					</label>
+					<button class="meta-btn" type="button" data-target="proxy://history">
+						History
+					</button>
+					<button class="meta-btn" type="button" data-target="proxy://settings">
+						Settings
+					</button>
+				</div>
+
 				<div class="status-block">
 					<p id="sj-error" role="alert"></p>
 					<pre id="sj-error-code"></pre>
 				</div>
 
-				<section id="bookmarks" aria-label="Quick bookmarks">
-					<button class="bookmark-btn" type="button" data-target="https://google.com">
-						<span class="bookmark-icon google">G</span>
-						<p>Google</p>
-					</button>
-					<button class="bookmark-btn" type="button" data-target="https://youtube.com">
-						<span class="bookmark-icon youtube">Y</span>
-						<p>YouTube</p>
-					</button>
-					<button class="bookmark-btn" type="button" data-target="https://discord.com">
-						<span class="bookmark-icon discord">D</span>
-						<p>Discord</p>
-					</button>
-					<button class="bookmark-btn" type="button" data-target="https://reddit.com">
-						<span class="bookmark-icon reddit">R</span>
-						<p>Reddit</p>
-					</button>
-					<button class="bookmark-btn" type="button" data-target="https://github.com">
-						<span class="bookmark-icon github">GH</span>
-						<p>GitHub</p>
-					</button>
-				</section>
+				<section id="bookmarks" aria-label="Quick bookmarks"></section>
 
 				<section id="buttons-extra" aria-label="Categories">
-					<button class="category-btn" type="button" data-search="browser games">
-						<span class="category-icon">GG</span>
+					<button
+						class="category-btn"
+						type="button"
+						onclick="window.location.href='games.html'"
+					>
+						<span class="category-icon">GM</span>
 						<p>Games</p>
 					</button>
-					<button class="category-btn" type="button" data-search="best web apps">
-						<span class="category-icon">AP</span>
-						<p>Apps</p>
+					<button
+						class="category-btn"
+						type="button"
+						data-launch="https://dot-gui.vercel.app/pages/tool-pages/wavesai.html"
+					>
+						<span class="category-icon">AI</span>
+						<p>AI</p>
 					</button>
-					<button class="category-btn" type="button" data-search="movies and tv streaming">
-						<span class="category-icon">TV</span>
-						<p>Movies/TV</p>
+					<button
+						class="category-btn"
+						type="button"
+						onclick="window.location.href='entertainment.html'"
+					>
+						<span class="category-icon">EN</span>
+						<p>Entertainment</p>
 					</button>
 				</section>
 			</main>
@@ -132,17 +278,25 @@
 						<span id="music-artist">Wisp + libcurl transport</span>
 					</div>
 					<div id="music-controls">
-						<button class="ctrl-btn" id="open-source" type="button" title="Project source">
+						<button
+							class="ctrl-btn"
+							id="open-source"
+							type="button"
+							title="Project source"
+						>
 							<svg width="14" height="14" viewBox="0 0 24 24" fill="white">
 								<path
 									d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3Z"
 								/>
-								<path
-									d="M5 5h6v2H7v10h10v-4h2v6H5V5Z"
-								/>
+								<path d="M5 5h6v2H7v10h10v-4h2v6H5V5Z" />
 							</svg>
 						</button>
-						<button class="ctrl-btn" id="open-credits" type="button" title="Credits">
+						<button
+							class="ctrl-btn"
+							id="open-credits"
+							type="button"
+							title="Credits"
+						>
 							<svg width="14" height="14" viewBox="0 0 24 24" fill="white">
 								<path
 									d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 4a1.5 1.5 0 1 1-1.5 1.5A1.5 1.5 0 0 1 12 6Zm2 12h-4v-2h1v-4h-1v-2h3v6h1Z"
@@ -152,14 +306,6 @@
 					</div>
 				</div>
 			</aside>
-
-			<footer id="lower-bar">
-				<a href="https://github.com/MercuryWorkshop">Mercury Workshop</a>
-				<span class="separator">/</span>
-				<a href="https://github.com/MercuryWorkshop/Scramjet-Demo">GitHub</a>
-				<span class="separator">/</span>
-				<a href="credits.html">Credits</a>
-			</footer>
 		</div>
 
 		<script src="scripts/particles.min.js"></script>
@@ -206,7 +352,13 @@
 						},
 						modes: {
 							grab: { distance: 400, line_linked: { opacity: 1 } },
-							bubble: { distance: 400, size: 40, duration: 2, opacity: 8, speed: 3 },
+							bubble: {
+								distance: 400,
+								size: 40,
+								duration: 2,
+								opacity: 8,
+								speed: 3,
+							},
 							repulse: { distance: 110, duration: 0.4 },
 							push: { particles_nb: 4 },
 							remove: { particles_nb: 2 },

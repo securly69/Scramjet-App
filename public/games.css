@@ -1,0 +1,203 @@
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: "Space Grotesk", sans-serif;
+	background: radial-gradient(circle at top, rgba(92, 141, 255, 0.18), transparent 34%), linear-gradient(180deg, #0d1220, #05070e 68%);
+	color: rgba(255, 255, 255, 0.92);
+}
+
+.games-page {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 4rem 2rem;
+}
+
+.games-hero {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+	margin-bottom: 3rem;
+    position: relative;
+}
+
+.games-logo {
+	width: 72px;
+	height: 72px;
+	object-fit: contain;
+}
+
+.games-copy h1 {
+	margin: 0;
+	font-family: "Schoolbell", cursive;
+	font-size: 3rem;
+	font-weight: 400;
+}
+
+.games-kicker, .games-subtitle {
+	margin: 0;
+	color: rgba(255, 255, 255, 0.64);
+}
+
+.games-kicker { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+
+.back-home-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.2s all;
+}
+.back-home-btn:hover { background: rgba(255, 255, 255, 0.15); }
+
+.games-search-panel {
+    margin-bottom: 2rem;
+}
+
+#games-search-form {
+    display: flex;
+    gap: 1rem;
+}
+
+#games-search-input {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font: inherit;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.2s;
+}
+#games-search-input:focus { border-color: rgba(134, 184, 255, 0.4); background: rgba(255, 255, 255, 0.1); }
+
+#games-search-form button {
+    padding: 0 2rem;
+    border-radius: 999px;
+    border: none;
+    background: #4f87ff;
+    color: white;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#games-search-form button:hover { background: #3a6ecc; }
+
+.games-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.games-grid li {
+    flex: 0 1 160px;
+    min-width: 140px;
+}
+
+.game-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    color: rgba(255, 255, 255, 0.9);
+    font: inherit;
+    cursor: pointer;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.game-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.cat-icon { font-size: 2rem; }
+.cat-title { font-size: 0.85rem; font-weight: 500; }
+
+@media (max-width: 640px) {
+    .games-hero { flex-direction: column; align-items: flex-start; }
+    .back-home-btn { position: relative; inset: auto; transform: none; display: inline-block; margin-top: 1rem; }
+}
+
+#game-overlay {
+    position: fixed;
+    inset: 0;
+    background: #0d1220;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+#game-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.game-overlay-header {
+    height: 48px;
+    background: #05070d;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-overlay-header button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: white;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85rem;
+    transition: 0.2s;
+}
+
+.game-overlay-header button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+#game-close {
+    background: rgba(255, 126, 126, 0.28);
+}
+
+#game-close:hover {
+    background: rgba(255, 126, 126, 0.45);
+}
+
+#game-frame-container {
+    flex: 1;
+    min-height: 0;
+    position: relative;
+}
+
+#game-frame-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: white;
+}

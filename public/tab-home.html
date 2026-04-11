@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+		/>
+		<title>New Tab</title>
+		<link rel="icon" href="sj.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Space+Grotesk:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="app-data.js" defer></script>
+		<link rel="stylesheet" href="tab-home.css" />
+		<script src="battery.js" defer></script>
+		<script src="tab-home.js" defer></script>
+	</head>
+	<body>
+		<main class="tab-home">
+			<div class="tab-home-brand">
+				<h1 class="tab-home-title">New Tab</h1>
+			</div>
+			<div class="tab-home-datetime" aria-live="polite">
+				<p id="tab-home-time">--:--:--</p>
+				<div class="home-date-battery">
+					<span id="tab-home-date">Loading date...</span>
+					<span>•</span>
+					<span class="battery-visual">
+						<span class="battery-fill"></span>
+						<span class="battery-charge-icon" style="display:none; position:absolute; font-size:8.5px; line-height:1; color:#1a1a1a;">⚡</span>
+					</span>
+					<span class="battery-text">Battery</span>
+					<span class="battery-percentage">--%</span>
+				</div>
+			</div>
+
+			<form id="tab-home-form" novalidate>
+				<input
+					id="tab-home-address"
+					type="text"
+					placeholder="Search or enter a URL..."
+					autocomplete="off"
+					spellcheck="false"
+					aria-label="Search or enter a URL"
+				/>
+			</form>
+
+			<div class="tab-home-controls">
+				<label class="tab-home-select" for="tab-home-search-engine-select">
+					<span>Search Engine</span>
+					<select id="tab-home-search-engine-select"></select>
+				</label>
+				<button
+					class="tab-home-select tab-home-link-btn"
+					id="tab-home-history"
+					type="button"
+				>
+					History
+				</button>
+				<button
+					class="tab-home-select tab-home-link-btn"
+					id="tab-home-settings"
+					type="button"
+				>
+					Settings
+				</button>
+			</div>
+
+			<section
+				class="tab-home-bookmarks"
+				id="tab-home-bookmarks"
+				aria-label="Quick bookmarks"
+			></section>
+		</main>
+	</body>
+</html>

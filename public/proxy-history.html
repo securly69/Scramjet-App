@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+		/>
+		<title>History</title>
+		<link rel="icon" href="sj.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Space+Grotesk:wght@400;500;700&display=swap"
+			rel="stylesheet"
+		/>
+		<script src="app-data.js" defer></script>
+		<link rel="stylesheet" href="proxy-history.css" />
+		<script src="proxy-history.js" defer></script>
+	</head>
+	<body>
+		<main class="history-page">
+			<header class="history-hero">
+				<img class="history-logo" src="sj.png" alt="Scramjet" />
+				<div class="history-copy">
+					<p class="history-kicker">proxy://history</p>
+					<h1>History</h1>
+					<p class="history-subtitle">
+						Every visited link stays here. Tab actions are tucked into the log
+						below.
+					</p>
+				</div>
+			</header>
+
+			<section class="history-panel" aria-labelledby="history-visits-title">
+				<div class="history-panel-head">
+					<h2 id="history-visits-title">Visited Links</h2>
+					<p id="history-count"></p>
+				</div>
+				<div id="history-list" class="history-list"></div>
+			</section>
+
+			<details class="history-details">
+				<summary>Tab Action Log (purely for devs)</summary>
+				<div id="history-actions" class="history-actions"></div>
+			</details>
+		</main>
+	</body>
+</html>

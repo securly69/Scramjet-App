@@ -1,0 +1,345 @@
+body {
+	margin: 0;
+	min-height: 100vh;
+	font-family: "Space Grotesk", sans-serif;
+	background:
+		radial-gradient(circle at top, rgba(92, 141, 255, 0.18), transparent 34%),
+		linear-gradient(180deg, #0d1220, #05070e 68%);
+	color: rgba(255, 255, 255, 0.92);
+}
+
+.tab-home {
+	min-height: 100vh;
+	display: grid;
+	align-content: center;
+	justify-items: center;
+	gap: 0.65rem;
+	padding: 18px 20px;
+	box-sizing: border-box;
+}
+
+.tab-home-brand {
+	display: grid;
+	justify-items: center;
+	gap: 0.2rem;
+}
+
+.tab-home-title {
+	margin: 0;
+	font-family: "Schoolbell", cursive;
+	font-size: clamp(2rem, 5vw, 3rem);
+	font-weight: 400;
+}
+
+#tab-home-form {
+	width: min(100%, 620px);
+}
+
+#tab-home-address {
+	width: 100%;
+	height: 50px;
+	padding: 0 1rem;
+	box-sizing: border-box;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 999px;
+	outline: none;
+	background: rgba(255, 255, 255, 0.08);
+	color: inherit;
+	font: inherit;
+	font-size: 0.95rem;
+	text-align: center;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.05),
+		0 18px 44px rgba(0, 0, 0, 0.28);
+	transition:
+		border-color 0.2s ease,
+		background-color 0.2s ease,
+		transform 0.2s ease;
+}
+
+#tab-home-address::placeholder {
+	color: rgba(255, 255, 255, 0.42);
+}
+
+#tab-home-address:focus {
+	border-color: rgba(134, 184, 255, 0.28);
+	background: rgba(255, 255, 255, 0.12);
+	transform: translateY(-1px);
+}
+
+.tab-home-controls {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 0.55rem;
+	width: min(100%, 620px);
+}
+
+.tab-home-datetime {
+	display: grid;
+	justify-items: center;
+	gap: 0.12rem;
+}
+
+.tab-home-datetime p {
+	margin: 0;
+}
+
+#tab-home-time {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: var(--text);
+	letter-spacing: 0.02em;
+}
+
+.home-date-battery {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--soft);
+}
+
+.battery-visual {
+    width: 18px;
+    height: 10px;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 2px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.battery-visual::after {
+    content: "";
+    position: absolute;
+    right: -3px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 4px;
+    background: rgba(255,255,255,0.6);
+    border-radius: 0 1px 1px 0;
+}
+
+.battery-fill {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    bottom: 1px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 1px;
+    width: 0%;
+    transition: width 0.3s, background-color 0.3s;
+}
+
+.battery-visual.charging {
+    border-color: #4CAF50;
+}
+
+.battery-visual.charging::after {
+    background: #4CAF50;
+}
+
+.battery-visual.charging .battery-fill {
+    background: #4CAF50;
+}
+
+#tab-home-date {
+	margin: 0;
+	font-size: 0.75rem;
+	color: rgba(255, 255, 255, 0.62);
+}
+
+.tab-home-select {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
+	padding: 0.62rem 0.82rem;
+	border-radius: 14px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(255, 255, 255, 0.07);
+}
+
+.tab-home-link-btn {
+	cursor: pointer;
+	color: rgba(255, 255, 255, 0.72);
+	font: inherit;
+	font-size: 0.82rem;
+}
+
+.tab-home-select span {
+	font-size: 0.78rem;
+	color: rgba(255, 255, 255, 0.64);
+}
+
+.tab-home-select select {
+	border: none;
+	outline: none;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	appearance: auto;
+	-webkit-appearance: menulist;
+	padding-right: 0.25rem;
+}
+
+.tab-home-bookmark-action {
+	font: inherit;
+}
+
+.tab-home-bookmarks {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	align-items: stretch;
+	gap: 0.6rem;
+	width: min(100%, 720px);
+	margin: 0 auto;
+}
+
+.tab-home-bookmark-card {
+	display: grid;
+	gap: 0.4rem;
+	min-width: 0;
+}
+
+.tab-home-bookmark {
+	display: flex;
+	align-items: center;
+	gap: 0.55rem;
+	width: 100%;
+	padding: 0.65rem 0.7rem;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 14px;
+	background: rgba(255, 255, 255, 0.06);
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.04),
+		0 14px 30px rgba(0, 0, 0, 0.18);
+	transition:
+		transform 0.2s ease,
+		border-color 0.2s ease,
+		background-color 0.2s ease;
+}
+
+.tab-home-bookmark:hover,
+.tab-home-bookmark:focus-visible,
+.tab-home-bookmark-action:hover,
+.tab-home-bookmark-action:focus-visible {
+	transform: translateY(-2px);
+	border-color: rgba(255, 255, 255, 0.14);
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.tab-home-bookmark-copy {
+	display: grid;
+	gap: 0.16rem;
+	min-width: 0;
+}
+
+.tab-home-bookmark-label,
+.tab-home-bookmark-url {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.tab-home-bookmark-label {
+	font-weight: 500;
+	font-size: 0.8rem;
+}
+
+.tab-home-bookmark-add .tab-home-bookmark-label {
+	white-space: normal;
+}
+
+.tab-home-bookmark-url {
+	font-size: 0.67rem;
+	color: rgba(255, 255, 255, 0.58);
+}
+
+.tab-home-bookmark-add .tab-home-bookmark-url {
+	white-space: normal;
+}
+
+.tab-home-bookmark-icon {
+	width: 30px;
+	height: 30px;
+	border-radius: 9px;
+	object-fit: cover;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.tab-home-bookmark-add {
+	min-height: 64px;
+	border-style: dashed;
+	border-color: rgba(134, 184, 255, 0.2);
+	background:
+		linear-gradient(
+			180deg,
+			rgba(134, 184, 255, 0.12),
+			rgba(255, 255, 255, 0.04)
+		),
+		rgba(255, 255, 255, 0.04);
+}
+
+.tab-home-bookmark-add-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	border-radius: 9px;
+	background: rgba(134, 184, 255, 0.16);
+	color: rgba(255, 255, 255, 0.92);
+	font-size: 1.2rem;
+	line-height: 1;
+	box-shadow: inset 0 0 0 1px rgba(134, 184, 255, 0.22);
+}
+
+.tab-home-bookmark-actions {
+	display: flex;
+	gap: 0.4rem;
+}
+
+.tab-home-bookmark-action {
+	flex: 1;
+	height: 28px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.06);
+	color: rgba(255, 255, 255, 0.68);
+	cursor: pointer;
+	font-size: 0.73rem;
+	transition:
+		transform 0.2s ease,
+		background-color 0.2s ease,
+		border-color 0.2s ease;
+}
+
+@media (max-width: 640px) {
+	#tab-home-address {
+		height: 48px;
+		font-size: 0.9rem;
+	}
+
+	#tab-home-time {
+		font-size: 0.88rem;
+	}
+
+	#tab-home-date {
+		font-size: 0.7rem;
+	}
+
+	.tab-home-bookmarks {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 0.55rem;
+	}
+}
