@@ -481,14 +481,16 @@ kbd {
 }
 
 .battery-visual {
-    width: 18px;
-    height: 10px;
+    width: 20px;
+    height: 11px;
     border: 1px solid rgba(255,255,255,0.6);
     border-radius: 2px;
     position: relative;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    padding: 1px;
 }
 
 .battery-visual::after {
@@ -500,18 +502,26 @@ kbd {
     width: 2px;
     height: 4px;
     background: rgba(255,255,255,0.6);
-    border-radius: 0 1px 1px 0;
+    border-radius: 0 2px 2px 0;
 }
 
 .battery-fill {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    bottom: 1px;
     background: rgba(255,255,255,0.9);
     border-radius: 1px;
     width: 0%;
     transition: width 0.3s, background-color 0.3s;
+}
+
+.battery-charge-icon {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8px;
+    line-height: 1;
+    color: #1a1a1a;
+    z-index: 10;
 }
 
 .battery-visual.charging {
@@ -524,6 +534,10 @@ kbd {
 
 .battery-visual.charging .battery-fill {
     background: #4CAF50;
+}
+
+.battery-visual.charging .battery-charge-icon {
+    display: block;
 }
 
 #home-date {
