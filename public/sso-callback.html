@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signing in… – KSF Proxy</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+    <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_ZW5oYW5jZWQtbWFtbW90aC01MC5jbGVyay5hY2NvdW50cy5kZXYk" src="https://enhanced-mammoth-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        font-family: "Space Grotesk", sans-serif; margin: 0; min-height: 100vh;
+        background: linear-gradient(180deg, #0f0f1a, #05070d);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        color: rgba(255,255,255,0.75); gap: 1.2rem;
+      }
+      .spinner-ring {
+        width: 44px; height: 44px; border: 3px solid rgba(134,184,255,0.2);
+        border-top-color: #86b8ff; border-radius: 50%; animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      p { margin: 0; font-size: 0.9rem; }
+      .error-msg { color: #ff9c9c; font-size: 0.84rem; max-width: 320px; text-align: center; display: none; }
+      .error-msg.visible { display: block; }
+      a { color: #86b8ff; font-size: 0.82rem; }
+    </style>
+  </head>
+  <body>
+    <div class="spinner-ring"></div>
+    <p id="status-msg">Completing sign-in…</p>
+    <p class="error-msg" id="err"></p>
+    <a href="/" style="display:none" id="home-link">← Back to KSF Proxy</a>
+    <script>
+      window.addEventListener("load", async () => {
+        if (!window.Clerk) {
+          await new Promise(res => {
+            const t = setInterval(() => { if (window.Clerk) { clearInterval(t); res(); } }, 80);
+            setTimeout(() => { clearInterval(t); res(); }, 6000);
+          });
+        }
+        const Clerk = window.Clerk;
+        if (!Clerk) { showErr("Auth service failed to load."); return; }
+        await Clerk.load();
+        try {
+          await Clerk.handleRedirectCallback({
+            redirectUrlComplete: "/",
+          });
+          // handleRedirectCallback navigates automatically on success.
+          // If we're still here, redirect manually.
+          if (Clerk.user) window.location.href = "//";
+        } catch (err) {
+          console.error(err);
+          const msg = err?.errors?.[0]?.longMessage || err?.message || "Authentication failed.";
+          showErr(msg);
+        }
+      });
+      function showErr(msg) {
+        document.querySelector(".spinner-ring").style.display = "none";
+        document.getElementById("status-msg").textContent = "Something went wrong.";
+        const el = document.getElementById("err");
+        el.textContent = msg; el.classList.add("visible");
+        document.getElementById("home-link").style.display = "";
+      }
+    </script>
+  </body>
+</html>

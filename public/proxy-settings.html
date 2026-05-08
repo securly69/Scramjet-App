@@ -1,46 +1,221 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
-		/>
-		<title>Settings</title>
-		<link rel="icon" href="sj.png" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Space+Grotesk:wght@400;500;700&display=swap"
-			rel="stylesheet"
-		/>
-		<script src="app-data.js" defer></script>
-		<link rel="stylesheet" href="proxy-history.css" />
-		<script src="proxy-settings.js" defer></script>
-	</head>
-	<body>
-		<main class="history-page">
-			<header class="history-hero">
-				<img class="history-logo" src="sj.png" alt="Scramjet" />
-				<div class="history-copy">
-					<p class="history-kicker">proxy://settings</p>
-					<h1>Settings</h1>
-					<p class="history-subtitle">
-						Configure your Scramjet Proxy browser.
-					</p>
-				</div>
-			</header>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
 
-			<section class="history-panel">
-				<div class="history-panel-head">
-					<h2>Bookmarks</h2>
-				</div>
-				<div style="padding: 1rem; color: rgba(255, 255, 255, 0.92);">
-					<button id="reset-bookmarks-btn" type="button" style="padding: 0.75rem 1rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(255, 255, 255, 0.06); color: inherit; font: inherit; cursor: pointer; transition: transform 0.15s ease, background-color 0.15s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.12)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.backgroundColor='rgba(255, 255, 255, 0.06)'; this.style.transform='translateY(0)';">
-						Reset Bookmarks
-					</button>
-				</div>
-			</section>
-		</main>
-	</body>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script async crossorigin="anonymous"
+    data-clerk-publishable-key="pk_test_ZW5oYW5jZWQtbWFtbW90aC01MC5jbGVyay5hY2NvdW50cy5kZXYk"
+    src="https://enhanced-mammoth-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js">
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #1a1a1a, #0b0b0b);
+      font-family: "Space Grotesk", sans-serif;
+      color: rgba(255,255,255,0.92);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    .header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-family: "Schoolbell", cursive;
+      font-size: 2.5rem;
+      margin: 0;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(16px);
+      border-radius: 18px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05rem;
+      opacity: 0.5;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .title {
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.2rem;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.2);
+      color: white;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1rem;
+    }
+
+    button, .btn {
+      padding: 0.7rem 1.2rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      cursor: pointer;
+      font-family: "Space Grotesk", sans-serif;
+      font-weight: 500;
+      transition: 0.2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button:hover:not(:disabled), .btn:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: white;
+      color: black;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      background: #eee;
+    }
+
+    .btn-danger {
+      background: rgba(255, 59, 48, 0.1);
+      border-color: rgba(255, 59, 48, 0.3);
+      color: #ff3b30;
+    }
+
+    /* SSO & Badges */
+    .sso-badge {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    .status-tag {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 20px;
+      margin-left: 8px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .status-connected { background: rgba(52, 199, 89, 0.2); color: #34c759; }
+    .status-disconnected { background: rgba(255, 255, 255, 0.1); color: rgba(255,255,255,0.5); }
+
+    /* Profile UI */
+    .profile-upload-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    img.avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid rgba(255,255,255,0.1);
+    }
+
+    /* Custom Choose File Button */
+    .file-input-wrapper {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-input-wrapper input[type=file] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .custom-file-btn {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px dashed rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.7);
+    }
+
+    .file-btn-text:hover {
+      cursor: pointer;
+    }
+
+    .file-input-wrapper:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-row">
+      <h1>Settings</h1>
+      <a href="/" class="btn">← Back Home</a>
+    </div>
+
+    <div class="card">
+      <div class="title">Bookmarks</div>
+      <button id="reset-bookmarks-btn">Reset All Bookmarks</button>
+    </div>
+
+    <div id="custom-settings"></div>
+  </div>
+
+  <script src="proxy-settings.js" defer></script>
+</body>
 </html>

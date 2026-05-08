@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Sign Up – KSF Proxy</title>
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Schoolbell&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_ZW5oYW5jZWQtbWFtbW90aC01MC5jbGVyay5hY2NvdW50cy5kZXYk" src="https://enhanced-mammoth-50.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js"></script>
+    <style>
+      *, *::before, *::after { box-sizing: border-box; }
+      body {
+        --bg-start: #0f0f1a; --bg-end: #05070d;
+        --border: rgba(255,255,255,0.1); --text: rgba(255,255,255,0.92);
+        --muted: rgba(255,255,255,0.55); --soft: rgba(255,255,255,0.38);
+        --error: #ff9c9c; --accent: #86b8ff; --accent-strong: #4f87ff;
+        font-family: "Space Grotesk", sans-serif; margin: 0; min-height: 100vh;
+        background: radial-gradient(circle at top, rgba(44,80,170,0.22), transparent 36%),
+                    linear-gradient(180deg, var(--bg-start), var(--bg-end));
+        color: var(--text); display: flex; align-items: center; justify-content: center; padding: 24px;
+      }
+      #particles-js { position: fixed; inset: 0; background: transparent; pointer-events: none; z-index: 0; }
+      .auth-shell { position: relative; z-index: 1; width: 100%; max-width: 420px; }
+      .auth-back {
+        display: inline-flex; align-items: center; gap: 0.45rem; margin-bottom: 1.5rem;
+        color: var(--muted); font-size: 0.84rem; text-decoration: none; transition: color 0.2s;
+      }
+      .auth-back:hover { color: var(--text); }
+      .auth-card {
+        background: radial-gradient(circle at top left, rgba(116,160,255,0.10), transparent 42%),
+                    linear-gradient(180deg, rgba(20,24,40,0.92), rgba(8,10,18,0.88));
+        border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 2.2rem 2rem;
+        backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px);
+        box-shadow: 0 40px 90px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+      }
+      .auth-header { text-align: center; margin-bottom: 1.8rem; }
+      .auth-header h1 { margin: 0 0 0.25rem; font-family: "Schoolbell", cursive; font-size: 2rem; font-weight: 400; line-height: 1; }
+      .auth-header p { margin: 0; font-size: 0.84rem; color: var(--muted); }
+      .step-indicator { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 1.6rem; }
+      .step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.18); transition: background 0.3s, transform 0.3s; }
+      .step-dot.active { background: var(--accent); transform: scale(1.25); }
+      .step-dot.done { background: rgba(134,184,255,0.45); }
+      .field-group { display: grid; gap: 0.9rem; margin-bottom: 1.1rem; }
+      .field { display: grid; gap: 0.38rem; }
+      .field label { font-size: 0.78rem; font-weight: 500; color: var(--muted); letter-spacing: 0.03em; text-transform: uppercase; }
+      .field input {
+        width: 100%; height: 46px; padding: 0 1rem; border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 13px; background: rgba(255,255,255,0.06); color: var(--text);
+        font: inherit; font-size: 0.94rem; outline: none;
+        transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+      }
+      .field input:focus { border-color: rgba(134,184,255,0.45); background: rgba(134,184,255,0.06); box-shadow: 0 0 0 3px rgba(79,135,255,0.12); }
+      .field input::placeholder { color: var(--soft); }
+      .field input.is-error { border-color: rgba(255,100,100,0.55); }
+      .field-error { font-size: 0.75rem; color: var(--error); min-height: 1em; display: none; }
+      .field-error.visible { display: block; }
+      .submit-btn {
+        width: 100%; height: 48px; border: none; border-radius: 13px;
+        background: linear-gradient(135deg, #4f87ff, #2855cc); color: #fff;
+        font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+        letter-spacing: 0.02em; box-shadow: 0 14px 36px rgba(79,135,255,0.28);
+        transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+        display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.4rem;
+      }
+      .submit-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 18px 42px rgba(79,135,255,0.36); }
+      .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .divider { display: flex; align-items: center; gap: 0.8rem; margin: 1.1rem 0; color: var(--soft); font-size: 0.75rem; }
+      .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: rgba(255,255,255,0.08); }
+      .oauth-btn {
+        width: 100%; height: 46px; border: 1px solid rgba(255,255,255,0.1); border-radius: 13px;
+        background: rgba(255,255,255,0.06); color: var(--text); font: inherit; font-size: 0.88rem; font-weight: 500;
+        cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+        transition: background 0.2s, border-color 0.2s, transform 0.2s; margin-bottom: 0.5rem; position: relative; overflow: hidden;
+      }
+      .oauth-btn:hover:not(:disabled) { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.18); transform: translateY(-1px); }
+      .oauth-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+      .oauth-btn .btn-content { display: flex; align-items: center; gap: 0.6rem; transition: opacity 0.2s; }
+      .oauth-btn .oauth-loading {
+        display: none; position: absolute; inset: 0; border-radius: 13px;
+        background: rgba(8,10,18,0.65); align-items: center; justify-content: center; gap: 0.5rem;
+        font-size: 0.84rem; color: var(--muted);
+      }
+      .oauth-btn.is-loading .btn-content { opacity: 0; }
+      .oauth-btn.is-loading .oauth-loading { display: flex; }
+      .global-error {
+        padding: 0.7rem 0.9rem; border-radius: 11px; background: rgba(255,80,80,0.1);
+        border: 1px solid rgba(255,80,80,0.22); color: var(--error); font-size: 0.82rem; margin-bottom: 1rem; display: none;
+      }
+      .global-error.visible { display: block; }
+      .auth-footer { text-align: center; margin-top: 1.2rem; font-size: 0.82rem; color: var(--muted); }
+      .auth-footer a { color: var(--accent); text-decoration: none; font-weight: 500; }
+      .auth-footer a:hover { text-decoration: underline; }
+      .otp-hint { text-align: center; font-size: 0.84rem; color: var(--muted); margin-bottom: 1.2rem; line-height: 1.5; }
+      .otp-hint strong { color: var(--text); }
+      .otp-fields { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1rem; }
+      .otp-input {
+        width: 44px; height: 52px; text-align: center; font-size: 1.3rem; font-weight: 700;
+        border: 1px solid rgba(255,255,255,0.12); border-radius: 11px; background: rgba(255,255,255,0.06);
+        color: var(--text); outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; caret-color: var(--accent);
+      }
+      .otp-input:focus { border-color: rgba(134,184,255,0.5); box-shadow: 0 0 0 3px rgba(79,135,255,0.14); }
+      .otp-input.complete { border-color: rgba(134,184,255,0.7); background: rgba(134,184,255,0.1); }
+      .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+      .mini-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: rgba(255,255,255,0.85); border-radius: 50%; animation: spin 0.7s linear infinite; }
+      .submit-btn.loading .btn-text { display: none; }
+      .submit-btn.loading .spinner { display: block; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .resend-row { text-align: center; font-size: 0.78rem; color: var(--muted); margin-top: 0.6rem; }
+      .resend-btn { background: none; border: none; color: var(--accent); font: inherit; font-size: 0.78rem; cursor: pointer; padding: 0; }
+      .resend-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    </style>
+  </head>
+  <body>
+    <div id="particles-js" aria-hidden="true"></div>
+    <div class="auth-shell">
+      <a class="auth-back" href="/">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to KSF Proxy
+      </a>
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1>KSF Proxy</h1>
+          <br>
+          <p id="step-subtitle">Create your account</p>
+        </div>
+        <div class="step-indicator">
+          <div class="step-dot active" id="dot-0"></div>
+          <div class="step-dot" id="dot-1"></div>
+        </div>
+        <div id="global-error" class="global-error" role="alert"></div>
+
+        <div id="step-register">
+          <div class="field-group">
+            <div style="display: flex; gap: 0.9rem;">
+              <div class="field" style="flex: 1;">
+                <label for="first-name">First name</label>
+                <input id="first-name" type="text" placeholder="John" />
+                <span class="field-error" id="first-name-error"></span>
+              </div>
+              <div class="field" style="flex: 1;">
+                <label for="last-name">Last name</label>
+                <input id="last-name" type="text" placeholder="Doe" />
+                <span class="field-error" id="last-name-error"></span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="username">Username</label>
+              <input id="username" type="text" placeholder="johndoe123" autocomplete="username" />
+              <span class="field-error" id="username-error"></span>
+            </div>
+            <div class="field">
+              <label for="email">Email address</label>
+              <input id="email" type="email" placeholder="you@example.com" autocomplete="email" />
+              <span class="field-error" id="email-error"></span>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" placeholder="At least 8 characters" autocomplete="new-password" />
+              <span class="field-error" id="password-error"></span>
+            </div>
+          </div>
+          <button class="submit-btn" id="register-btn" type="button">
+            <span class="btn-text">Continue</span>
+            <div class="spinner"></div>
+          </button>
+          <div class="divider">or</div>
+          <button class="oauth-btn" id="google-btn" type="button">
+            <span class="btn-content">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Continue with Google
+            </span>
+            <span class="oauth-loading"><div class="mini-spinner"></div> Redirecting…</span>
+          </button>
+          <button class="oauth-btn" id="github-btn" type="button">
+            <span class="btn-content">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--text)"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+              Continue with GitHub
+            </span>
+            <span class="oauth-loading"><div class="mini-spinner"></div> Redirecting…</span>
+          </button>
+        </div>
+
+        <div id="step-verify" style="display:none;">
+          <p class="otp-hint">
+            We've sent a verification code to<br>
+            <strong id="otp-email-display"></strong>
+          </p>
+          <div class="otp-fields">
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code" />
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+            <input class="otp-input" maxlength="1" type="text" inputmode="numeric" pattern="[0-9]" />
+          </div>
+          <button class="submit-btn" id="verify-btn" type="button">
+            <span class="btn-text">Verify &amp; Continue</span>
+            <div class="spinner"></div>
+          </button>
+          <div class="resend-row">
+            Didn't receive it? <button class="resend-btn" id="resend-btn" type="button">Resend code</button>
+          </div>
+        </div>
+        <div id="clerk-captcha"></div>
+        <div class="auth-footer">
+          Already have an account? <a href="/sign-in">Sign in</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/particles.min.js"></script>
+    <script>
+      if (window.particlesJS) {
+        particlesJS("particles-js", {
+          particles: {
+            number: { value: 50, density: { enable: true, value_area: 800 } },
+            color: { value: "#ffffff" }, shape: { type: "circle" },
+            opacity: { value: 0.3, random: false }, size: { value: 2.5, random: true },
+            line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.18, width: 1 },
+            move: { enable: true, speed: 3, direction: "none", random: true, out_mode: "out" },
+          },
+          interactivity: { detect_on: "window", events: { onhover: { enable: false }, onclick: { enable: false }, resize: true } },
+          retina_detect: true,
+        });
+      }
+    </script>
+    <script>
+      // ─── UI helpers ───────────────────────────────────────────────────────────
+      function showGlobalError(msg) {
+        const el = document.getElementById("global-error");
+        el.textContent = msg; el.classList.add("visible");
+      }
+      function clearGlobalError() {
+        const el = document.getElementById("global-error");
+        el.textContent = ""; el.classList.remove("visible");
+      }
+      function fieldError(id, msg) {
+        const el = document.getElementById(id);
+        if (el) { el.textContent = msg; el.classList.toggle("visible", !!msg); }
+        const inp = document.getElementById(id.replace("-error",""));
+        if (inp) inp.classList.toggle("is-error", !!msg);
+      }
+      function setLoading(btn, loading) {
+        btn.classList.toggle("loading", loading); btn.disabled = loading;
+      }
+      function setStep(step) {
+        document.getElementById("step-register").style.display = step === 0 ? "" : "none";
+        document.getElementById("step-verify").style.display   = step === 1 ? "" : "none";
+        ["dot-0","dot-1"].forEach((id, i) => {
+          document.getElementById(id).classList.toggle("active", i === step);
+          document.getElementById(id).classList.toggle("done",   i < step);
+        });
+        document.getElementById("step-subtitle").textContent =
+          ["Create your account","Verify your email"][step];
+      }
+
+      // ─── OTP wiring ───────────────────────────────────────────────────────────
+      const otpInputs = Array.from(document.querySelectorAll(".otp-input"));
+      let autoSubmitting = false;
+
+      function getOtpCode() { return otpInputs.map(o => o.value).join(""); }
+      function resetOtp() {
+        otpInputs.forEach(o => { o.value = ""; o.classList.remove("complete"); });
+        autoSubmitting = false;
+      }
+      function triggerAutoSubmit() {
+        if (autoSubmitting) return;
+        autoSubmitting = true;
+        otpInputs.forEach(o => o.classList.add("complete"));
+        setTimeout(() => {
+          const verifyBtn = document.getElementById("verify-btn");
+          if (!verifyBtn.disabled) verifyBtn.click();
+        }, 300);
+      }
+
+      otpInputs.forEach((inp, idx) => {
+        inp.addEventListener("input", () => {
+          inp.value = inp.value.replace(/\D/g,"").slice(-1);
+          if (inp.value) {
+            if (idx < otpInputs.length - 1) otpInputs[idx+1].focus();
+            if (getOtpCode().length === 6) triggerAutoSubmit();
+          }
+        });
+        inp.addEventListener("keydown", e => {
+          if (e.key === "Backspace") {
+            if (inp.value) { inp.value = ""; otpInputs.forEach(o => o.classList.remove("complete")); autoSubmitting = false; }
+            else if (idx > 0) { otpInputs[idx-1].focus(); }
+          }
+          if (e.key === "Enter") document.getElementById("verify-btn").click();
+        });
+        inp.addEventListener("paste", e => {
+          e.preventDefault();
+          const digits = (e.clipboardData||window.clipboardData).getData("text").replace(/\D/g,"");
+          otpInputs.forEach((o, i) => { o.value = digits[i] || ""; });
+          otpInputs[Math.min(digits.length, otpInputs.length-1)].focus();
+          if (getOtpCode().length === 6) triggerAutoSubmit();
+        });
+      });
+
+      // ─── Clerk bootstrap ──────────────────────────────────────────────────────
+      window.addEventListener("load", async () => {
+        if (!window.Clerk) {
+          await new Promise(res => {
+            const t = setInterval(() => { if (window.Clerk) { clearInterval(t); res(); } }, 80);
+            setTimeout(() => { clearInterval(t); res(); }, 6000);
+          });
+        }
+        const Clerk = window.Clerk;
+        if (!Clerk) { showGlobalError("Auth service failed to load. If you are a dev, check your publishable key."); return; }
+        await Clerk.load();
+        if (Clerk.user) { window.location.href = "/"; return; }
+
+        // ── Register ──────────────────────────────────────────────────────────
+        document.getElementById("password").addEventListener("keydown", e => {
+          if (e.key === "Enter") document.getElementById("register-btn").click();
+        });
+
+        document.getElementById("register-btn").addEventListener("click", async () => {
+          clearGlobalError();
+          fieldError("first-name-error",""); fieldError("last-name-error","");
+          fieldError("email-error",""); fieldError("password-error","");
+          
+          const firstName = document.getElementById("first-name").value.trim();
+          const lastName  = document.getElementById("last-name").value.trim();
+          const username  = document.getElementById("username").value.trim();
+          const email     = document.getElementById("email").value.trim();
+          const password  = document.getElementById("password").value;
+
+          // Clear previous errors
+          fieldError("username-error", "");
+
+          // Add validation
+          if (!firstName) { fieldError("first-name-error","First name is required"); return; }
+          if (!lastName)  { fieldError("last-name-error","Last name is required"); return; }
+          if (!username)  { fieldError("username-error","Username is required"); return; }
+          if (!email)     { fieldError("email-error","Email is required"); return; }
+          if (!password)  { fieldError("password-error","Password is required"); return; }
+
+          const btn = document.getElementById("register-btn");
+          setLoading(btn, true);
+          try {
+            // Create the sign-up resource with names
+            await Clerk.client.signUp.create({ 
+              emailAddress: email, 
+              password, 
+              firstName, 
+              lastName,
+              username 
+            });
+            
+            // Prepare email code on the live resource
+            await Clerk.client.signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+            document.getElementById("otp-email-display").textContent = email;
+            setStep(1);
+            setTimeout(() => otpInputs[0].focus(), 50);
+          } catch (err) {
+            handleClerkError(err);
+          } finally {
+            setLoading(btn, false);
+          }
+        });
+
+        // ── Verify ────────────────────────────────────────────────────────────
+        document.getElementById("verify-btn").addEventListener("click", async () => {
+          clearGlobalError();
+          const code = getOtpCode();
+          if (code.length < 6) { showGlobalError("Please enter all 6 digits."); return; }
+
+          const btn = document.getElementById("verify-btn");
+          if (btn.disabled) return;
+          setLoading(btn, true);
+          try {
+            const result = await Clerk.client.signUp.attemptEmailAddressVerification({ code });
+            if (result.status === "complete") {
+              await Clerk.setActive({ session: result.createdSessionId });
+              window.location.href = "/";
+            } else {
+              resetOtp();
+              showGlobalError("Extra step required (" + result.status + "). Please contact support.");
+            }
+          } catch (err) {
+            resetOtp();
+            otpInputs[0].focus();
+            handleClerkError(err);
+          } finally {
+            setLoading(btn, false);
+          }
+        });
+
+        // ── Resend ────────────────────────────────────────────────────────────
+        document.getElementById("resend-btn").addEventListener("click", async () => {
+          clearGlobalError();
+          const btn = document.getElementById("resend-btn");
+          btn.disabled = true;
+          btn.textContent = "Sending…";
+          try {
+            await Clerk.client.signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+            resetOtp();
+            otpInputs[0].focus();
+            btn.textContent = "Sent!";
+            let secs = 30;
+            const iv = setInterval(() => {
+              secs--;
+              if (secs <= 0) { clearInterval(iv); btn.textContent = "Resend code"; btn.disabled = false; }
+              else btn.textContent = "Resend (" + secs + "s)";
+            }, 1000);
+          } catch (err) {
+            btn.textContent = "Resend code";
+            btn.disabled = false;
+            handleClerkError(err);
+          }
+        });
+
+        // ── OAuth ─────────────────────────────────────────────────────────────
+        function setupOAuth(strategy, btnId) {
+          document.getElementById(btnId).addEventListener("click", async () => {
+            clearGlobalError();
+            const btn = document.getElementById(btnId);
+            btn.classList.add("is-loading"); btn.disabled = true;
+            try {
+              await Clerk.client.signUp.authenticateWithRedirect({
+                strategy,
+                redirectUrl:         window.location.origin + "/sso-callback.html",
+                redirectUrlComplete: window.location.origin + "/",
+              });
+            } catch (err) {
+              btn.classList.remove("is-loading"); btn.disabled = false;
+              handleClerkError(err);
+            }
+          });
+        }
+        setupOAuth("oauth_google",  "google-btn");
+        setupOAuth("oauth_github",  "github-btn");
+      });
+
+      function handleClerkError(err) {
+        console.error(err);
+        if (err?.errors?.length) {
+          const e = err.errors[0];
+          const msg = e.longMessage || e.message || "An error occurred.";
+          if (e.meta?.paramName === "email_address") { fieldError("email-error", msg); return; }
+          if (e.meta?.paramName === "password")      { fieldError("password-error", msg); return; }
+          if (e.meta?.paramName === "first_name")    { fieldError("first-name-error", msg); return; }
+          if (e.meta?.paramName === "last_name")     { fieldError("last-name-error", msg); return; }
+          if (e.meta?.paramName === "username")      { fieldError("username-error", msg); return; }
+          showGlobalError(msg);
+        } else {
+          showGlobalError(err?.message || "Something went wrong. Please try again.");
+        }
+      }
+    </script>
+  </body>
+</html>
